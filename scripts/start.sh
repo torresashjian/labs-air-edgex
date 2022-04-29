@@ -5,27 +5,15 @@ os_type=${2:?}
 arch_type=${3:?}
 
 load_offline() {
-    if [[ "${arch_type}" == "amd64" ]]; then
-        pushd ./linux/basicdemo > /dev/null || exit 1
-        ./load.sh || exit 2
-        popd || exit 1
-    elif [[ "${arch_type}" == "arm64" ]]; then
-        pushd ./arm64/basicdemo > /dev/null || exit 1
-        ./load.sh || exit 2
-        popd || exit 1
-    fi
+    pushd ./${arch_type}/edge > /dev/null || exit 1
+    ./load.sh || exit 2
+    popd || exit 1
 }
 
 start(){
-    if [[ "${arch_type}" == "amd64" ]]; then
-        pushd ./linux/basicdemo > /dev/null || exit 1
-        ./start.sh || exit 2
-        popd || exit 1
-    elif [[ "${arch_type}" == "arm64" ]]; then
-        pushd ./arm64/basicdemo > /dev/null || exit 1
-        ./start.sh || exit 2
-        popd || exit 1
-    fi
+    pushd ./${arch_type}/edge > /dev/null || exit 1
+    ./start.sh || exit 2
+    popd || exit 1
 }
 
 if [[ "${network_type}" == "offline" ]]; then

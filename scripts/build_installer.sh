@@ -6,15 +6,9 @@ arch_type=${3:?}
 
 build_offline(){
   # Offline artifacts
-  if [[ "${arch_type}" == "amd64" ]]; then
-      pushd "scripts/linux/basicdemo" || exit 1
-      ./export.sh || exit 1
-      popd > /dev/null || exit 1
-  elif [[ "${arch_type}" == "arm64" ]]; then
-      pushd "scripts/arm64/basicdemo" || exit 1
-      ./export.sh || exit 1
-      popd > /dev/null || exit 1
-  fi
+  pushd ./installers/community/${arch_type} || exit 1
+  ./export.sh || exit 1
+  popd > /dev/null || exit 1
 }
 
 
@@ -28,14 +22,10 @@ mkdir -p $installer_target_path
 # Offline artifacts
 if [[ "${network_type}" == "offline" ]];
 then
-  build_offline ${arch_type}|| exit 1
+  build_offline || exit 1
 fi
 
-if [[ "${arch_type}" == "amd64" ]]; then
-      cp -r scripts/linux $installer_target_path|| exit 1
-elif [[ "${arch_type}" == "arm64" ]]; then
-      cp -r scripts/arm64 $installer_target_path|| exit 1
-fi
+cp -r ./installers/community/${arch_type} ${installer_target_path} || exit 1
 
 if [[ "${os_type}" != windows ]];
   then
